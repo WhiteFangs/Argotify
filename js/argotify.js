@@ -1,21 +1,43 @@
 $(document).ready(function(){
-	
-	var textnodes = nativeTreeWalker(),
-	_nv;
-	for (var i = 0, len = textnodes.length; i<len; i++){
-		_nv = textnodes[i].nodeValue;
-		textnodes[i].nodeValue = transformNodeValue(_nv);
-	}
-
+	changeInput();
 });
 
+var originalNodes = [];
+var simplifyValue, verlanifyValue, weshifyValue;
 var removeApostrophes = true;
+
+function changeInput(){
+	simplifyValue = document.getElementById("simplify").value / 10,
+	verlanifyValue = document.getElementById("verlanify").value / 10,
+	weshifyValue = document.getElementById("weshify").value / 10;
+
+	document.getElementById("simplifyValue").value = simplifyValue*100 + "%";
+	document.getElementById("verlanifyValue").value = verlanifyValue*100 + "%";
+	document.getElementById("weshifyValue").value = weshifyValue*100 + "%";
+
+	processTransformation();
+}
+
+function processTransformation(){
+	var textnodes = nativeTreeWalker(), nv, tnv;
+
+	for (var i = 0, len = textnodes.length; i<len; i++){
+		if(originalNodes[i] == undefined)
+			originalNodes.push(textnodes[i].nodeValue);
+		nv = originalNodes[i];
+		tnv = transformNodeValue(nv);
+		if(tnv.trim().length > 1)
+			textnodes[i].nodeValue = tnv;
+	}
+	console.log(textnodes.length);
+	console.log(originalNodes.length);
+}
 
 function verlanifySyllabes(a, word){
 	if(word.length > 5 && !word.match(/'|’/g) && !word.match(/-/g) &&
 		(a.nb == 2 || a.max == 3) && a.syllabes[0].length > 1 &&
 		word.slice(-3).indexOf("e") == -1 && ["a", "e", "é", "i", "o", "u", "y"].indexOf(word.charAt(0)) == -1){
-		if(Math.random() < 0.33){
+		if(Math.random() < verlanifyValue){
 			var first = a.syllabes.shift();
 			a.syllabes.push("-" + first);
 		}
@@ -104,15 +126,18 @@ function simplifySyllabe(syllabe){
 function transformWord(word){
 	word = word.toLowerCase();
 	var tword = wordReplacing(word);
-	if(tword != undefined)
+	if(tword != undefined && Math.random() < simplifyValue)
 		return tword;
 	// simplify writings in word, not syllabes
-	word = simplifyWordWriting(word);
-	word = simplifyWordEnding(word);
+	if(Math.random() < simplifyValue)
+		word = simplifyWordWriting(word);
+	if(Math.random() < simplifyValue)
+		word = simplifyWordEnding(word);
 	// work on syllabes
 	var a = syllabify(word);
 	// simplify syllabes
-	a.syllabes = simplifySyllabes(a.syllabes);
+	if(Math.random() < simplifyValue)
+		a.syllabes = simplifySyllabes(a.syllabes);
 	// verlanify syllabes
 	a.syllabes = verlanifySyllabes(a, word);
 	// join syllabes after simplify and verlanify
@@ -142,12 +167,12 @@ function transformNodeValue(nv){
 		// transform word
 		if(word.length > 0){
 			// handle capitalized
-			var isCapitalized = word[0] === word[0].toUpperCase() && word !== word.toUpperCase();
+			var isCapitalized = word[0] === word[0].toUpperCase() && word !== word.toUpperCase() && word.trim().length > 1;
 			// handle caps words
-			var isCaps = word === word.toUpperCase();
+			var isCaps = word === word.toUpperCase() && word.trim().length > 1;
 			var tword = transformWord(word);
 			if(punctuation){
-				if(Math.random() < 0.33)
+				if(Math.random() < weshifyValue)
 					tword += " " + getRandomThugWord();
 				tword += punctuation;
 			}
@@ -180,7 +205,7 @@ function getRandomThugWord(){
 
 function nativeTreeWalker() {
 	var walker = document.createTreeWalker(
-		document.body, 
+		document.getElementById("text"), 
 		NodeFilter.SHOW_TEXT, 
 		null, 
 		false
