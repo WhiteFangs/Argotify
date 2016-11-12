@@ -46,6 +46,8 @@ function verlanifySyllabes(a, word){
 }
 
 function wordReplacing(word){
+	if(word == "même")
+		return "mm";
 	if(word == "un")
 		return "1";
 	if(word == "mais")
@@ -56,6 +58,62 @@ function wordReplacing(word){
 		return "é";
 	if(word == "ceci")
 		return "ceuci";
+}
+
+function wordWeshifying(word){
+	if(word == "homme")
+		return Math.random() < verlanifyValue ? "keum" : "mec";
+	if(word == "femme")
+		return Math.random() < 0.5 ? "meuf" : "zouz";
+	if(word.indexOf("donn") == 0)
+		return word.replace("donn", "aboul");
+	if(word.indexOf("travaill") == 0)
+		return word.replace("travaill", "boss");
+	if(word == "travail")
+		return Math.random() < 0.5 ? "taff" : "boulot";
+	if(word.indexOf("mange") == 0)
+		return word.replace("mang", "bouff"); // not perfect solution : mangea => bouffea :/
+	if(word.indexOf("pleur") == 0)
+		return word.replce("pleur", "chial");
+	if(word == "mourir")
+		return "crever";
+	if(word == "père" || word == "papa")
+		return "daron";
+	if(word == "mère" || word == "maman")
+		return "daronne";
+	if(word.indexOf("embrass") == 0)
+		return "pécho";
+	if(word == "policier")
+		return Math.random() < verlanifyValue ? "keuf" : "flic";
+	if(word.indexOf("pauvre") == 0)
+		return word.replace("pauvre", "fauché");
+	if(word == "argent")
+		return "fric";
+	if(word.indexOf("bouche") == 0)
+		return word.replace("bouche", "gueule");
+	if(word.indexOf("aime") == 0 || word.indexOf("apprécie") == 0)
+		return word.replace("aime", "kiffe").replace("apprécie", "kiffe");
+	if(word.indexOf("regard") == 0 && word.length > 6)
+		return word.replace("regard", "mat");
+	if(word.indexOf("habill") == 0)
+		return word.replace("habill", "sap");
+	if(word.indexOf("vêtement") == 0)
+		return word.replace("vêtement", "sape");
+	if(word == "peur")
+		return "flip";
+}
+
+function wordVerlanifying(word){
+	if(word == "fou")
+		return "ouf";
+	if(word == "lourd")
+		return "relou";
+	if(word == "juif" || word == "juive")
+		return "feuj";
+	if(word == "arabe")
+		return "rebeu";
+	if(word == "maigre")
+		return "keus";
 }
 
 function simplifyWordWriting(word){
@@ -73,6 +131,9 @@ function simplifyWordWriting(word){
 	word = word.replace(/g(e|é|i)/gi, "j$1");
 	word = word.replace(/nc(e|é|i)/gi, "ns$1");
 	word = word.replace(/th/gi, "t");
+    word = word.replace(/[àâ]/g, "a");
+	word = word.replace(/[êë]/g, "e");
+	word = word.replace(/[ùû]/g, "u");
 	return word;
 }
 
@@ -125,9 +186,15 @@ function simplifySyllabe(syllabe){
 
 function transformWord(word){
 	word = word.toLowerCase();
-	var tword = wordReplacing(word);
-	if(tword != undefined && Math.random() < simplifyValue)
-		return tword;
+	var replaced = wordReplacing(word);
+	if(replaced != undefined && Math.random() < simplifyValue)
+		return replaced;
+	var weshified = wordWeshifying(word);
+	if(weshified != undefined && Math.random() < weshifyValue)
+		return weshified;
+	var verlanified = wordVerlanifying(word);
+	if(verlanified != undefined && Math.random() < verlanifyValue)
+		return verlanified;
 	// simplify writings in word, not syllabes
 	if(Math.random() < simplifyValue)
 		word = simplifyWordWriting(word);
