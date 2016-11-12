@@ -1,5 +1,5 @@
-$(document).ready(function(){
-	changeInput();
+document.addEventListener("DOMContentLoaded", function(event) { 
+  changeInput();
 });
 
 var originalNodes = [];
