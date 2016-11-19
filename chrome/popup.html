@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr-FR">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<script type="text/javascript" src="./popup.js"></script>
+	<style>
+	body{
+		width: 200px;
+	}
+	output{
+		vertical-align: super;
+	}
+	</style>
+</head>
+<body>
+	<h1>Argotify</h1>
+	<div>
+		<div>
+			<label for="simplify">Écriture simplifiée (SMS)</label><br />
+			<input type="range" id="simplify" min="0" value="5" max="10" step="1">
+			<output for="simplify" id="simplifyValue"></output>
+		</div>
+		<div>
+			<label for="verlanify">Verlan</label><br />
+			<input type="range" id="verlanify" min="0" value="3" max="10" step="1">
+			<output for="verlanify" id="verlanifyValue"></output>
+		</div>
+		<div>
+			<label for="weshify">Argot</label><br />
+			<input type="range" id="weshify" min="0" value="3" max="10" step="1">
+			<output for="weshify" id="weshifyValue"></output>
+		</div>
+	</div>
+</body>
+</html>
