@@ -1,8 +1,8 @@
 // Inform the background page that 
 // this tab should have a page-action
 chrome.runtime.sendMessage({
-  from:    'content',
-  subject: 'showPageAction'
+	from:    'content',
+	subject: 'showPageAction'
 });
 
 var simplifyValue, verlanifyValue, weshifyValue;
@@ -201,15 +201,18 @@ function transformWord(word){
 		word = simplifyWordWriting(word);
 	if(Math.random() < simplifyValue)
 		word = simplifyWordEnding(word);
-	// work on syllabes
-	var a = syllabify(word);
-	// simplify syllabes
-	if(Math.random() < simplifyValue)
-		a.syllabes = simplifySyllabes(a.syllabes);
-	// verlanify syllabes
-	a.syllabes = verlanifySyllabes(a, word);
-	// join syllabes after simplify and verlanify
-	word = a.syllabes.join("");
+
+	if(word.length > 1 && word.match(/^\d+$/gi) == null) {
+		// work on syllabes
+		var a = syllabify(word);
+		// simplify syllabes
+		if(Math.random() < simplifyValue)
+			a.syllabes = simplifySyllabes(a.syllabes);
+		// verlanify syllabes
+		a.syllabes = verlanifySyllabes(a, word);
+		// join syllabes after simplify and verlanify
+		word = a.syllabes.join("");
+	}
 	return word;
 }
 
