@@ -30,8 +30,6 @@ function processTransformation(){
 		if(tnv.trim().length > 1)
 			textnodes[i].nodeValue = tnv;
 	}
-	console.log(textnodes.length);
-	console.log(originalNodes.length);
 }
 
 function verlanifySyllabes(a, word){

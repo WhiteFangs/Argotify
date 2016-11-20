@@ -4,6 +4,7 @@
 	"version":"0.0",
 	"manifest_version": 2,
 	"offline_enabled": true,
+	"homepage_url": "https://github.com/WhiteFangs/Argotify",
 	"background": {
 		"persistent": false,
 		"scripts": ["background.js"]
