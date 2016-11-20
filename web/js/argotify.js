@@ -2,9 +2,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   changeInput();
 });
 
-var originalNodes = [];
 var simplifyValue, verlanifyValue, weshifyValue;
-var removeApostrophes = true;
 
 function changeInput(){
 	simplifyValue = document.getElementById("simplify").value / 10,
@@ -15,8 +13,13 @@ function changeInput(){
 	document.getElementById("verlanifyValue").value = verlanifyValue*100 + "%";
 	document.getElementById("weshifyValue").value = weshifyValue*100 + "%";
 
+	document.getElementById("text").innerText = document.getElementById("textarea").value;
+
 	processTransformation();
 }
+
+var originalNodes = [];
+var removeApostrophes = true;
 
 function processTransformation(){
 	var textnodes = nativeTreeWalker(), nv, tnv;
@@ -29,8 +32,6 @@ function processTransformation(){
 		if(tnv.trim().length > 1)
 			textnodes[i].nodeValue = tnv;
 	}
-	console.log(textnodes.length);
-	console.log(originalNodes.length);
 }
 
 function verlanifySyllabes(a, word){
@@ -131,7 +132,7 @@ function simplifyWordWriting(word){
 	word = word.replace(/g(e|é|i)/gi, "j$1");
 	word = word.replace(/nc(e|é|i)/gi, "ns$1");
 	word = word.replace(/th/gi, "t");
-    word = word.replace(/[àâ]/g, "a");
+	word = word.replace(/[àâ]/g, "a");
 	word = word.replace(/[êë]/g, "e");
 	word = word.replace(/[ùû]/g, "u");
 	return word;
@@ -200,15 +201,18 @@ function transformWord(word){
 		word = simplifyWordWriting(word);
 	if(Math.random() < simplifyValue)
 		word = simplifyWordEnding(word);
-	// work on syllabes
-	var a = syllabify(word);
-	// simplify syllabes
-	if(Math.random() < simplifyValue)
-		a.syllabes = simplifySyllabes(a.syllabes);
-	// verlanify syllabes
-	a.syllabes = verlanifySyllabes(a, word);
-	// join syllabes after simplify and verlanify
-	word = a.syllabes.join("");
+
+	if(word.length > 1 && word.match(/^\d+$/gi) == null) {
+		// work on syllabes
+		var a = syllabify(word);
+		// simplify syllabes
+		if(Math.random() < simplifyValue)
+			a.syllabes = simplifySyllabes(a.syllabes);
+		// verlanify syllabes
+		a.syllabes = verlanifySyllabes(a, word);
+		// join syllabes after simplify and verlanify
+		word = a.syllabes.join("");
+	}
 	return word;
 }
 
