@@ -1,7 +1,7 @@
 {
 	"name":"Argotify",
 	"description":"Transforme le texte de n'importe quelle page web en argot",
-	"version":"0.0",
+	"version":"1.0",
 	"manifest_version": 2,
 	"offline_enabled": true,
 	"homepage_url": "https://github.com/WhiteFangs/Argotify",
@@ -15,7 +15,15 @@
 		"run_at": "document_end",
 		"all_frames": false
 	}],
+	"icons": { 
+		"16": "icons/icon_16.png",
+		"32": "icons/icon_32.png",
+		"48": "icons/icon_48.png",
+		"96": "icons/icon_96.png",
+		"128": "icons/icon_128.png" 
+	},
 	"page_action": {
+		"default_icon": "icons/icon_128.png",
 		"default_title": "Argotify",
 		"default_popup": "popup.html"
 	},
