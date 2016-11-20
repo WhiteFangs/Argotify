@@ -1,0 +1,19 @@
+{
+	"name":"Argotify",
+	"description":"Transforme le texte de n'importe quelle page web en argot",
+	"version":"1.0",
+	"manifest_version": 2,
+	"offline_enabled": true,
+	"homepage_url": "https://github.com/WhiteFangs/Argotify",
+	"content_scripts": [{
+		"matches":    ["http://*/*", "https://*/*"],
+		"js":         ["metriques.js", "argotify.js"],
+		"run_at": "document_end",
+		"all_frames": false
+	}],
+	"browser_action": {
+		"default_title": "Argotify",
+		"default_popup": "popup.html"
+	},
+	"permissions": ["activeTab"]
+}
