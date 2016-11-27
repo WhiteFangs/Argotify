@@ -13,6 +13,7 @@ function changeInput(){
 	document.getElementById("verlanifyValue").value = verlanifyValue*100 + "%";
 	document.getElementById("weshifyValue").value = weshifyValue*100 + "%";
 
+	originalNodes = [];
 	document.getElementById("text").innerText = document.getElementById("textarea").value;
 
 	processTransformation();
@@ -75,7 +76,7 @@ function wordWeshifying(word){
 	if(word.indexOf("mange") == 0)
 		return word.replace("mang", "bouff"); // not perfect solution : mangea => bouffea :/
 	if(word.indexOf("pleur") == 0)
-		return word.replce("pleur", "chial");
+		return word.replace("pleur", "chial");
 	if(word == "mourir")
 		return "crever";
 	if(word == "père" || word == "papa")
@@ -135,6 +136,8 @@ function simplifyWordWriting(word){
 	word = word.replace(/[àâ]/g, "a");
 	word = word.replace(/[êë]/g, "e");
 	word = word.replace(/[ùû]/g, "u");
+	word = word.replace(/[î]/g, "i");
+	word = word.replace(/[ô]/g, "o");
 	return word;
 }
 
